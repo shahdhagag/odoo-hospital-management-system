@@ -1,0 +1,99 @@
+<odoo>
+
+    <data>
+
+        <!-- Patient Tree View -->
+        <record id="patient_tree_view" model="ir.ui.view">
+            <field name="name">hms.patient.tree</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="birth_date"/>
+                    <field name="email"/>
+                    <field name="blood_type"/>
+                    <field name="pcr"/>
+                    <field name="age"/>
+                    <field name="department_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- Patient Form View -->
+        <record id="patient_form_view" model="ir.ui.view">
+            <field name="name">hms.patient.form</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <!-- Patient Information -->
+                        <group>
+
+                            <group>
+                                <field name="first_name"/>
+                                <field name="last_name"/>
+                                <field name="birth_date"/>
+                                <field name="age"/>
+                                <field name="email"/>
+                                <field name="department_id"/>
+<field
+    name="doctor_ids"
+    widget="many2many_tags"
+    groups="hms.group_hms_manager"
+/>
+                            </group>
+
+                            <group>
+                                <field name="blood_type"/>
+                                <field name="pcr"/>
+                                <field name="cr_ratio"/>
+                                <field name="image"/>
+                            </group>
+
+                        </group>
+
+
+                        <!-- Address -->
+                        <group>
+                            <field name="address"/>
+                        </group>
+
+
+                        <!-- History -->
+                        <group>
+                            <field name="history"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Patient Action -->
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Menus -->
+        <menuitem
+            id="hms_root_menu"
+            name="HMS"
+        />
+
+        <menuitem
+            id="hms_patient_menu"
+            name="Patients"
+            parent="hms_root_menu"
+            action="patient_action"
+        />
+
+    </data>
+
+</odoo>
