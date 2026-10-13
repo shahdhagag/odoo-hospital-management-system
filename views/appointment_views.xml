@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================= -->
+        <!-- Appointment Tree View     -->
+        <!-- ========================= -->
+
+        <record id="appointment_tree_view" model="ir.ui.view">
+            <field name="name">hms.appointment.tree</field>
+            <field name="model">hms.appointment</field>
+            <field name="arch" type="xml">
+                <tree string="Appointments"
+                      decoration-success="state == 'completed'"
+                      decoration-danger="state in ['cancelled', 'no_show']"
+                      decoration-info="state == 'confirmed'">
+
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="department_id"/>
+                    <field name="appointment_datetime"/>
+                    <field name="duration"/>
+                    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Appointment Form View     -->
+        <!-- ========================= -->
+
+        <record id="appointment_form_view" model="ir.ui.view">
+            <field name="name">hms.appointment.form</field>
+            <field name="model">hms.appointment</field>
+            <field name="arch" type="xml">
+                <form string="Appointment">
+
+                    <header>
+
+                        <button name="action_confirm"
+                                type="object"
+                                string="Confirm"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'scheduled')]}"/>
+
+                        <button name="action_start"
+                                type="object"
+                                string="Start Appointment"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+
+                        <button name="action_complete"
+                                type="object"
+                                string="Complete"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+
+                        <button name="action_cancel"
+                                type="object"
+                                string="Cancel"
+                                attrs="{'invisible': [('state', 'in', ['completed', 'cancelled', 'no_show'])]}"/>
+
+                        <button name="action_mark_no_show"
+                                type="object"
+                                string="Mark No Show"
+                                attrs="{'invisible': [('state', 'not in', ['scheduled', 'confirmed'])]}"/>
+
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="scheduled,confirmed,in_progress,completed,cancelled,no_show"/>
+
+                    </header>
+
+                    <sheet>
+
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+
+                            <group string="Appointment Information">
+                                <field name="patient_id"/>
+                                <field name="doctor_id"/>
+                                <field name="department_id"/>
+                                <field name="reason"/>
+                            </group>
+
+                            <group string="Schedule">
+                                <field name="appointment_datetime"/>
+                                <field name="duration"/>
+                                <field name="end_datetime"/>
+                            </group>
+
+                        </group>
+
+                        <notebook>
+
+                            <page string="Symptoms">
+                                <field name="symptoms"/>
+                            </page>
+
+                            <page string="Cancellation">
+                                <field name="cancellation_reason"/>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Appointment Calendar View -->
+        <!-- ========================= -->
+
+        <record id="appointment_calendar_view" model="ir.ui.view">
+            <field name="name">hms.appointment.calendar</field>
+            <field name="model">hms.appointment</field>
+            <field name="arch" type="xml">
+                <calendar string="Appointments"
+                          date_start="appointment_datetime"
+                          date_stop="end_datetime"
+                          color="doctor_id"
+                          mode="week">
+
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="state"/>
+
+                </calendar>
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Appointment Search View   -->
+        <!-- ========================= -->
+
+        <record id="appointment_search_view" model="ir.ui.view">
+            <field name="name">hms.appointment.search</field>
+            <field name="model">hms.appointment</field>
+            <field name="arch" type="xml">
+                <search string="Search Appointments">
+
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="department_id"/>
+
+                    <filter name="scheduled"
+                            string="Scheduled"
+                            domain="[('state', '=', 'scheduled')]"/>
+
+                    <filter name="confirmed"
+                            string="Confirmed"
+                            domain="[('state', '=', 'confirmed')]"/>
+
+                    <filter name="in_progress"
+                            string="In Progress"
+                            domain="[('state', '=', 'in_progress')]"/>
+
+                    <filter name="completed"
+                            string="Completed"
+                            domain="[('state', '=', 'completed')]"/>
+
+                    <filter name="cancelled"
+                            string="Cancelled"
+                            domain="[('state', '=', 'cancelled')]"/>
+
+                    <filter name="no_show"
+                            string="No Show"
+                            domain="[('state', '=', 'no_show')]"/>
+
+                    <group expand="0" string="Group By">
+
+                        <filter name="group_by_patient"
+                                string="Patient"
+                                context="{'group_by': 'patient_id'}"/>
+
+                        <filter name="group_by_doctor"
+                                string="Doctor"
+                                context="{'group_by': 'doctor_id'}"/>
+
+                        <filter name="group_by_state"
+                                string="Status"
+                                context="{'group_by': 'state'}"/>
+
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Appointment Window Action -->
+        <!-- ========================= -->
+
+        <record id="appointment_action" model="ir.actions.act_window">
+            <field name="name">Appointments</field>
+            <field name="res_model">hms.appointment</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="search_view_id" ref="appointment_search_view"/>
+            <field name="context">{}</field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Appointment Menu          -->
+        <!-- ========================= -->
+
+        <menuitem
+            id="hms_appointment_menu"
+            name="Appointments"
+            parent="hms_root_menu"
+            action="appointment_action"
+            sequence="20"
+            groups="hms.group_hms_user"
+        />
+
+    </data>
+</odoo>

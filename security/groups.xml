@@ -29,5 +29,24 @@
             <field name="domain_force">[(1, '=', 1)]</field>
         </record>
 
+
+        <!-- HMS User: Own Patient Appointments Only -->
+<record id="appointment_rule_hms_user" model="ir.rule">
+    <field name="name">HMS User: Own Patient Appointments</field>
+    <field name="model_id" ref="model_hms_appointment"/>
+    <field name="groups" eval="[(4, ref('group_hms_user'))]"/>
+    <field name="domain_force">[('patient_id.user_id', '=', user.id)]</field>
+</record>
+
+<!-- HMS Manager: All Appointments -->
+<record id="appointment_rule_hms_manager" model="ir.rule">
+    <field name="name">HMS Manager: All Appointments</field>
+    <field name="model_id" ref="model_hms_appointment"/>
+    <field name="groups" eval="[(4, ref('group_hms_manager'))]"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+</record>
+
+
+
     </data>
 </odoo>
