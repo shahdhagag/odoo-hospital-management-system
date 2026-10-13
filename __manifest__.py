@@ -7,6 +7,7 @@
         'security/ir.model.access.csv',
         'data/sequences.xml',
         'reports/patient_report.xml',
+        'reports/prescription_report.xml',
         'views/patient_views.xml',
         'views/department_views.xml',
         'views/doctor_views.xml',

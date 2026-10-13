@@ -77,6 +77,12 @@ class MedicalEncounter(models.Model):
         string='Treatment Plan',
     )
 
+    prescription_ids = fields.One2many(
+        'hms.prescription',
+        'encounter_id',
+        string='Prescriptions',
+    )
+
     # =========================
     # Workflow
     # =========================

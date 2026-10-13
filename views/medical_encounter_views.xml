@@ -121,6 +121,18 @@
                                        attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
                             </page>
 
+                            <page string="Prescriptions">
+                                <field name="prescription_ids"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}">
+                                    <tree editable="bottom">
+                                        <field name="name" readonly="1"/>
+                                        <field name="prescription_date"/>
+                                        <field name="doctor_id" readonly="1"/>
+                                        <field name="state" widget="badge" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
                         </notebook>
 
                     </sheet>

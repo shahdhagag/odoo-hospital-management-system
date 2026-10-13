@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================= -->
+        <!-- Prescription PDF Report Template         -->
+        <!-- ========================================= -->
+
+        <template id="prescription_report_template">
+            <t t-call="web.html_container">
+
+                <t t-foreach="docs" t-as="prescription">
+
+                    <div class="page prescription-page">
+
+                        <style>
+                            .prescription-page {
+                                font-family: Arial, sans-serif;
+                                color: #243247;
+                                font-size: 12px;
+                                padding: 10px 14px;
+                            }
+
+                            .prescription-header {
+                                width: 100%;
+                                border-collapse: collapse;
+                                border-bottom: 3px solid #167d89;
+                                margin-bottom: 22px;
+                            }
+
+                            .brand-name {
+                                color: #16324f;
+                                font-size: 23px;
+                                font-weight: bold;
+                                letter-spacing: 1px;
+                                margin: 0;
+                            }
+
+                            .brand-subtitle {
+                                color: #718096;
+                                font-size: 10px;
+                                margin-top: 5px;
+                            }
+
+                            .document-label {
+                                color: #167d89;
+                                font-size: 10px;
+                                font-weight: bold;
+                                letter-spacing: 2px;
+                                text-align: right;
+                            }
+
+                            .document-title {
+                                color: #16324f;
+                                font-size: 24px;
+                                font-weight: bold;
+                                text-align: right;
+                                margin: 7px 0;
+                            }
+
+                            .reference {
+                                text-align: right;
+                                font-size: 11px;
+                                color: #64748b;
+                            }
+
+                            .status-pill {
+                                display: inline-block;
+                                padding: 5px 12px;
+                                font-size: 10px;
+                                font-weight: bold;
+                                border-radius: 12px;
+                            }
+
+                            .status-confirmed {
+                                background-color: #d1fae5;
+                                color: #065f46;
+                            }
+
+                            .status-draft {
+                                background-color: #fef3c7;
+                                color: #92400e;
+                            }
+
+                            .status-cancelled {
+                                background-color: #fee2e2;
+                                color: #991b1b;
+                            }
+
+                            .section-title {
+                                color: #16324f;
+                                font-size: 13px;
+                                font-weight: bold;
+                                padding-bottom: 8px;
+                                margin: 20px 0 10px;
+                                border-bottom: 1px solid #dbe5ed;
+                            }
+
+                            .info-table {
+                                width: 100%;
+                                border-collapse: separate;
+                                border-spacing: 8px 0;
+                                margin-left: -8px;
+                                margin-bottom: 8px;
+                            }
+
+                            .info-card {
+                                width: 50%;
+                                padding: 12px;
+                                background-color: #f3f7fa;
+                                border: 1px solid #e0e8ef;
+                                vertical-align: top;
+                            }
+
+                            .info-label {
+                                color: #718096;
+                                font-size: 10px;
+                                text-transform: uppercase;
+                                margin-bottom: 5px;
+                            }
+
+                            .info-value {
+                                color: #16324f;
+                                font-size: 12px;
+                                font-weight: bold;
+                                margin-bottom: 11px;
+                                word-wrap: break-word;
+                            }
+
+                            .medication-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 8px;
+                                font-size: 10px;
+                            }
+
+                            .medication-table thead {
+                                display: table-header-group;
+                            }
+
+                            .medication-table th {
+                                background-color: #16324f;
+                                color: #ffffff;
+                                padding: 10px 7px;
+                                text-align: left;
+                                border: 1px solid #16324f;
+                            }
+
+                            .medication-table td {
+                                padding: 10px 7px;
+                                border: 1px solid #dbe5ed;
+                                vertical-align: top;
+                                word-wrap: break-word;
+                            }
+
+                            .medication-table tbody tr:nth-child(even) {
+                                background-color: #f3f7fa;
+                            }
+
+                            .medication-name {
+                                color: #16324f;
+                                font-weight: bold;
+                                font-size: 11px;
+                            }
+
+                            .medical-box {
+                                background-color: #f3f7fa;
+                                border-left: 3px solid #167d89;
+                                padding: 12px;
+                                margin-top: 8px;
+                                margin-bottom: 12px;
+                                line-height: 1.6;
+                                word-wrap: break-word;
+                            }
+
+                            .medical-label {
+                                color: #167d89;
+                                font-size: 10px;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                margin-bottom: 5px;
+                            }
+
+                            .notes-box {
+                                border: 1px solid #dbe5ed;
+                                padding: 12px;
+                                margin-top: 8px;
+                                line-height: 1.6;
+                                white-space: pre-wrap;
+                                word-wrap: break-word;
+                            }
+
+                            .signature-table {
+                                width: 100%;
+                                margin-top: 35px;
+                                border-collapse: collapse;
+                            }
+
+                            .signature-cell {
+                                width: 50%;
+                                padding: 10px 8px;
+                                vertical-align: top;
+                            }
+
+                            .signature-line {
+                                border-top: 1px solid #94a3b8;
+                                padding-top: 8px;
+                                margin-top: 35px;
+                                color: #64748b;
+                                font-size: 10px;
+                            }
+
+                            .report-footer {
+                                border-top: 1px solid #dbe5ed;
+                                margin-top: 22px;
+                                padding-top: 10px;
+                                text-align: center;
+                                color: #718096;
+                                font-size: 9px;
+                            }
+
+                            .muted {
+                                color: #718096;
+                            }
+                        </style>
+
+                        <!-- ========================== -->
+                        <!-- Header                      -->
+                        <!-- ========================== -->
+
+                        <table class="prescription-header">
+                            <tr>
+                                <td style="width: 48%; padding: 14px 0;">
+                                    <h1 class="brand-name">
+                                        HMS
+                                    </h1>
+
+                                    <div class="brand-subtitle">
+                                        HOSPITAL MANAGEMENT SYSTEM
+                                    </div>
+                                </td>
+
+                                <td style="width: 52%; padding: 14px 0;">
+                                    <div class="document-label">
+                                        MEDICAL DOCUMENT
+                                    </div>
+
+                                    <div class="document-title">
+                                        Prescription
+                                    </div>
+
+                                    <div class="reference">
+                                        Reference:
+                                        <strong>
+                                            <span t-esc="prescription.name"/>
+                                        </strong>
+                                    </div>
+
+                                    <div style="text-align: right; margin-top: 8px;">
+                                        <span t-att-class="'status-pill status-' + prescription.state">
+                                            <span t-esc="dict(
+                                                prescription._fields['state'].selection
+                                            ).get(prescription.state, 'N/A')"/>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- ========================== -->
+                        <!-- Patient and Doctor         -->
+                        <!-- ========================== -->
+
+                        <h2 class="section-title">
+                            Patient and Doctor Information
+                        </h2>
+
+                        <table class="info-table">
+                            <tr>
+                                <td class="info-card">
+
+                                    <div class="info-label">
+                                        Patient Name
+                                    </div>
+
+                                    <div class="info-value">
+                                        <span t-esc="prescription.patient_id.name or 'N/A'"/>
+                                    </div>
+
+                                    <div class="info-label">
+                                        Prescription Reference
+                                    </div>
+
+                                    <div class="info-value">
+                                        <span t-esc="prescription.name"/>
+                                    </div>
+
+                                    <div class="info-label">
+                                        Medical Encounter
+                                    </div>
+
+                                    <div class="info-value">
+                                        <span t-esc="prescription.encounter_id.name or 'N/A'"/>
+                                    </div>
+
+                                </td>
+
+                                <td class="info-card">
+
+                                    <div class="info-label">
+                                        Attending Doctor
+                                    </div>
+
+                                    <div class="info-value">
+                                        <span t-esc="prescription.doctor_id.name or 'N/A'"/>
+                                    </div>
+
+                                    <div class="info-label">
+                                        Prescription Date
+                                    </div>
+
+                                    <div class="info-value">
+                                        <span t-field="prescription.prescription_date"
+                                              t-options='{"widget": "datetime"}'/>
+                                    </div>
+
+                                    <div class="info-label">
+                                        Encounter Date
+                                    </div>
+
+                                    <div class="info-value">
+                                        <span t-field="prescription.encounter_id.encounter_date"
+                                              t-options='{"widget": "datetime"}'/>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- ========================== -->
+                        <!-- Medication Table           -->
+                        <!-- ========================== -->
+
+                        <h2 class="section-title">
+                            Prescribed Medications
+                        </h2>
+
+                        <table class="medication-table">
+
+                            <thead>
+                                <tr>
+                                    <th style="width: 24%;">
+                                        Medication
+                                    </th>
+
+                                    <th style="width: 14%;">
+                                        Dosage
+                                    </th>
+
+                                    <th style="width: 12%;">
+                                        Frequency
+                                    </th>
+
+                                    <th style="width: 13%;">
+                                        Duration
+                                    </th>
+
+                                    <th style="width: 37%;">
+                                        Instructions
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr t-foreach="prescription.line_ids"
+                                    t-as="line">
+
+                                    <td>
+                                        <div class="medication-name">
+                                            <span t-esc="line.medication_name"/>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="line.dosage"/>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="line.frequency"/>
+                                        time(s) per day
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="line.duration"/>
+
+                                        <span t-esc="dict(
+                                            line._fields['duration_unit'].selection
+                                        ).get(line.duration_unit, '')"/>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="line.instructions or 'No additional instructions'"/>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <!-- ========================== -->
+                        <!-- Diagnosis                   -->
+                        <!-- ========================== -->
+
+                        <h2 class="section-title">
+                            Clinical Information
+                        </h2>
+
+                        <div class="medical-box">
+
+                            <div class="medical-label">
+                                Diagnosis
+                            </div>
+
+                            <div t-if="prescription.encounter_id.diagnosis">
+                                <span t-esc="prescription.encounter_id.diagnosis"/>
+                            </div>
+
+                            <div t-else="" class="muted">
+                                No diagnosis recorded.
+                            </div>
+
+                        </div>
+
+                        <!-- ========================== -->
+                        <!-- Treatment Plan              -->
+                        <!-- ========================== -->
+
+                        <div class="medical-box">
+
+                            <div class="medical-label">
+                                Treatment Plan
+                            </div>
+
+                            <div t-if="prescription.encounter_id.treatment_plan"
+                                 t-field="prescription.encounter_id.treatment_plan"/>
+
+                            <div t-else="" class="muted">
+                                No treatment plan recorded.
+                            </div>
+
+                        </div>
+
+                        <!-- ========================== -->
+                        <!-- Prescription Notes         -->
+                        <!-- ========================== -->
+
+                        <div t-if="prescription.notes">
+
+                            <h2 class="section-title">
+                                Additional Notes
+                            </h2>
+
+                            <div class="notes-box">
+                                <span t-esc="prescription.notes"/>
+                            </div>
+
+                        </div>
+
+                        <!-- ========================== -->
+                        <!-- Signature Section           -->
+                        <!-- ========================== -->
+
+                        <table class="signature-table">
+                            <tr>
+                                <td class="signature-cell">
+
+                                    <div class="signature-line">
+                                        Attending Doctor
+
+                                        <br/>
+
+                                        <strong>
+                                            <span t-esc="prescription.doctor_id.name or 'N/A'"/>
+                                        </strong>
+                                    </div>
+
+                                </td>
+
+                                <td class="signature-cell">
+
+                                    <div class="signature-line">
+                                        Doctor's Signature
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- ========================== -->
+                        <!-- Footer                      -->
+                        <!-- ========================== -->
+
+                        <div class="report-footer">
+
+                            <div>
+                                HMS — Hospital Management System
+                            </div>
+
+                            <div style="margin-top: 4px;">
+                                Confidential medical information.
+                                Handle and share this document securely.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </t>
+
+            </t>
+        </template>
+
+        <!-- ========================================= -->
+        <!-- Prescription PDF Report Action            -->
+        <!-- ========================================= -->
+
+        <record id="prescription_report_action"
+                model="ir.actions.report">
+
+            <field name="name">Medical Prescription</field>
+
+            <field name="model">hms.prescription</field>
+
+            <field name="report_type">qweb-pdf</field>
+
+            <field name="report_name">hms.prescription_report_template</field>
+            <field name="report_file">hms.prescription_report_template</field>
+
+            <field name="binding_model_id"
+                   ref="model_hms_prescription"/>
+
+            <field name="binding_type">report</field>
+
+            <field name="print_report_name">
+                'Prescription - %s' % (object.name)
+            </field>
+
+        </record>
+
+    </data>
+</odoo>
