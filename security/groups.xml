@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
 
-    <!-- HMS User Group -->
-    <record id="group_hms_user" model="res.groups">
-        <field name="name">HMS User</field>
-    </record>
+        <!-- HMS User Group -->
+        <record id="group_hms_user" model="res.groups">
+            <field name="name">HMS User</field>
+        </record>
 
-    <!-- HMS Manager Group -->
-    <record id="group_hms_manager" model="res.groups">
-        <field name="name">HMS Manager</field>
-    </record>
+        <!-- HMS Manager Group -->
+        <record id="group_hms_manager" model="res.groups">
+            <field name="name">HMS Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_hms_user'))]"/>
+        </record>
 
-    <!-- HMS User: Can access only his own patients -->
-    <record id="patient_rule_hms_user" model="ir.rule">
-        <field name="name">HMS User: Own Patients</field>
-        <field name="model_id" ref="model_hms_patient"/>
-        <field name="groups" eval="[(4, ref('group_hms_user'))]"/>
-        <field name="domain_force">[('user_id', '=', user.id)]</field>
-    </record>
+        <!-- HMS User: Own Patients Only -->
+        <record id="patient_rule_hms_user" model="ir.rule">
+            <field name="name">HMS User: Own Patients</field>
+            <field name="model_id" ref="model_hms_patient"/>
+            <field name="groups" eval="[(4, ref('group_hms_user'))]"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
 
+        <!-- HMS Manager: All Patients -->
+        <record id="patient_rule_hms_manager" model="ir.rule">
+            <field name="name">HMS Manager: All Patients</field>
+            <field name="model_id" ref="model_hms_patient"/>
+            <field name="groups" eval="[(4, ref('group_hms_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+    </data>
 </odoo>

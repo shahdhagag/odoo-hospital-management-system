@@ -1,165 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <data>
 
-    <template id="patient_status_report_template">
-        <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="patient">
-                <div class="page" style="font-family: Arial, sans-serif; color: #111; padding: 28px 42px;">
-                    <style>
-                        .patient-report {
-                            border: 3px solid #1268c4;
-                            min-height: 690px;
-                            padding: 28px 38px 18px;
-                        }
-                        .patient-title {
-                            color: #e53232;
-                            font-size: 30px;
-                            font-weight: bold;
-                            margin: 0 0 34px;
-                        }
-                        .patient-photo {
-                            width: 155px;
-                            height: 155px;
-                            object-fit: cover;
-                            display: block;
-                            margin: 0 auto 26px;
-                        }
-                        .patient-details {
-                            width: 100%;
-                            border-collapse: collapse;
-                            font-size: 18px;
-                            line-height: 1.55;
-                        }
-                        .patient-details td {
-                            width: 50%;
-                            vertical-align: top;
-                            padding: 0 16px 0 0;
-                        }
-                        .patient-details td + td {
-                            padding-left: 20px;
-                            padding-right: 0;
-                        }
-                        .patient-details strong {
-                            font-weight: bold;
-                        }
-                        .history-title {
-                            color: #e53232;
-                            font-size: 21px;
-                            text-align: center;
-                            margin: 26px 0 2px;
-                        }
-                        .history-table {
-                            width: 88%;
-                            margin: 0 auto;
-                            border-collapse: collapse;
-                            font-size: 17px;
-                        }
-                        .history-table th {
-                            background: #147cf0;
-                            color: #fff;
-                            text-align: left;
-                            padding: 8px 10px;
-                            border-right: 2px solid #fff;
-                        }
-                        .history-table td {
-                            background: #ccd8fa;
-                            height: 34px;
-                            padding: 5px 10px;
-                            border: 1px solid #fff;
-                            vertical-align: top;
-                        }
-                    </style>
+        <!-- ====================================== -->
+        <!-- Patient Status Report Template -->
+        <!-- ====================================== -->
+        <template id="patient_status_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="patient">
+                    <div class="page"
+                         style="font-family: Arial, sans-serif; color: #111; padding: 28px 42px;">
 
-                    <div class="patient-report">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="width: 58%; vertical-align: top;">
-                                    <h1 class="patient-title">Patient Status Report</h1>
-                                </td>
-                                <td style="width: 42%; vertical-align: top;">
-                                    <img t-if="patient.image"
-                                         class="patient-photo"
-                                         t-att-src="image_data_uri(patient.image)"
-                                         alt="Patient photo"/>
-                                </td>
-                            </tr>
-                        </table>
+                        <style>
+                            .patient-report {
+                                border: 3px solid #1268c4;
+                                min-height: 690px;
+                                padding: 28px 38px 18px;
+                            }
 
-                        <table class="patient-details">
-                            <tr>
-                                <td>
-                                    <strong>Name:</strong>
-                                    <span t-esc="patient.first_name"/>
-                                    <span t-esc="patient.last_name"/>
-                                    <br/>
-                                    <strong>Age:</strong>
-                                    <span t-esc="patient.age"/>
-                                    <br/>
-                                    <strong>Department:</strong>
-                                    <span t-esc="patient.department_id.name"/>
-                                    <br/>
-                                    <strong>Doctors:</strong>
-                                    <span t-esc="', '.join(patient.doctor_ids.mapped('first_name'))"/>
-                                </td>
-                                <td>
-                                    <strong>Birth date:</strong>
-                                    <span t-esc="patient.birth_date"/>
-                                    <br/>
-                                    <strong>PCR:</strong>
-                                    <span t-esc="patient.pcr"/>
-                                    <br/>
-                                    <strong>Blood Type:</strong>
-                                    <span t-esc="patient.blood_type"/>
-                                    <br/>
-                                    <strong>Email:</strong>
-                                    <span t-esc="patient.email"/>
-                                </td>
-                            </tr>
-                        </table>
+                            .patient-title {
+                                color: #e53232;
+                                font-size: 30px;
+                                font-weight: bold;
+                                margin: 0 0 34px;
+                            }
 
-                        <h2 class="history-title">Log History</h2>
-                        <table class="history-table">
-                            <thead>
+                            .patient-photo {
+                                width: 155px;
+                                height: 155px;
+                                object-fit: cover;
+                                display: block;
+                                margin: 0 auto 26px;
+                            }
+
+                            .patient-details {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 16px;
+                                line-height: 1.7;
+                            }
+
+                            .patient-details td {
+                                width: 50%;
+                                vertical-align: top;
+                                padding: 0 16px 0 0;
+                            }
+
+                            .patient-details td + td {
+                                padding-left: 20px;
+                                padding-right: 0;
+                            }
+
+                            .patient-details strong {
+                                font-weight: bold;
+                            }
+
+                            .history-title {
+                                color: #e53232;
+                                font-size: 21px;
+                                text-align: center;
+                                margin: 26px 0 10px;
+                            }
+
+                            .history-table {
+                                width: 100%;
+                                margin: 0 auto;
+                                border-collapse: collapse;
+                                font-size: 13px;
+                            }
+
+                            .history-table th {
+                                background: #147cf0;
+                                color: #fff;
+                                text-align: left;
+                                padding: 8px 10px;
+                                border: 1px solid #fff;
+                            }
+
+                            .history-table td {
+                                background: #ccd8fa;
+                                padding: 8px 10px;
+                                border: 1px solid #fff;
+                                vertical-align: top;
+                                word-wrap: break-word;
+                            }
+
+                            .report-footer {
+                                margin-top: 22px;
+                                padding-top: 10px;
+                                border-top: 1px solid #ccc;
+                                text-align: center;
+                                font-size: 11px;
+                                color: #666;
+                            }
+                        </style>
+
+                        <div class="patient-report">
+
+                            <!-- Report Header -->
+                            <table style="width: 100%; border-collapse: collapse;">
                                 <tr>
-                                    <th style="width: 33%;">User</th>
-                                    <th style="width: 33%;">Date</th>
-                                    <th style="width: 34%;">Info</th>
+                                    <td style="width: 58%; vertical-align: top;">
+                                        <h1 class="patient-title">
+                                            Patient Status Report
+                                        </h1>
+                                    </td>
+
+                                    <td style="width: 42%; vertical-align: top;">
+                                        <img t-if="patient.image"
+                                             class="patient-photo"
+                                             t-att-src="image_data_uri(patient.image)"
+                                             alt="Patient photo"/>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
+                            </table>
+
+                            <!-- Patient Information -->
+                            <table class="patient-details">
                                 <tr>
-                                    <td><span t-esc="patient.user_id.name"/></td>
-                                    <td><span t-esc="patient.write_date"/></td>
-                                    <td><div t-field="patient.history"/></td>
+                                    <td>
+                                        <strong>Medical Record No.:</strong>
+                                        <span t-esc="patient.medical_record_number or 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Name:</strong>
+                                        <span t-esc="patient.name or 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Age:</strong>
+                                        <span t-esc="patient.age if patient.birth_date else 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Birth Date:</strong>
+                                        <span t-esc="patient.birth_date or 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Status:</strong>
+                                        <span t-esc="dict(patient._fields['state'].selection).get(patient.state, 'N/A')"/>
+                                        <br/>
+
+                                        <strong>Department:</strong>
+                                        <span t-esc="patient.department_id.name or 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Doctors:</strong>
+                                        <span t-esc="', '.join(patient.doctor_ids.mapped('name')) or 'N/A'"/>
+                                    </td>
+
+                                    <td>
+                                        <strong>Email:</strong>
+                                        <span t-esc="patient.email or 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Blood Type:</strong>
+                                        <span t-esc="dict(patient._fields['blood_type'].selection).get(patient.blood_type, 'N/A') if patient.blood_type else 'N/A'"/>
+                                        <br/>
+
+                                        <strong>PCR:</strong>
+                                        <span t-esc="'Positive' if patient.pcr else 'Negative'"/>
+                                        <br/>
+
+                                        <strong>CR Ratio:</strong>
+                                        <span t-esc="'%.2f' % patient.cr_ratio if patient.cr_ratio else 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Responsible User:</strong>
+                                        <span t-esc="patient.user_id.name or 'N/A'"/>
+                                        <br/>
+
+                                        <strong>Address:</strong>
+                                        <span t-esc="patient.address or 'N/A'"/>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td/>
-                                    <td/>
-                                    <td/>
-                                </tr>
-                            </tbody>
-                        </table>
+                            </table>
+
+                            <!-- Medical History -->
+                            <h2 class="history-title">
+                                Medical History
+                            </h2>
+
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%;">Responsible User</th>
+                                        <th style="width: 25%;">Last Updated</th>
+                                        <th style="width: 50%;">Medical Information</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span t-esc="patient.user_id.name or 'N/A'"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-field="patient.write_date"
+                                                  t-options='{"widget": "datetime"}'/>
+                                        </td>
+
+                                        <td>
+                                            <div t-if="patient.history"
+                                                 t-field="patient.history"/>
+                                            <span t-else="">
+                                                No medical history recorded.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Report Footer -->
+                            <div class="report-footer">
+                                <p>
+                                    Hospital Management System — Patient Report
+                                </p>
+                                <p>
+                                    This report contains confidential patient information.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
+                </t>
             </t>
-        </t>
-    </template>
+        </template>
 
+        <!-- ====================================== -->
+        <!-- Patient Status Report Action -->
+        <!-- ====================================== -->
+        <record id="patient_status_report_action" model="ir.actions.report">
 
-    <!-- Patient Status Report Action -->
-    <record id="patient_status_report_action" model="ir.actions.report">
+            <field name="name">Patient Status Report</field>
 
-        <field name="name">Patient Status Report</field>
-        <field name="model">hms.patient</field>
-        <field name="report_type">qweb-pdf</field>
+            <field name="model">hms.patient</field>
 
-        <field name="report_name">hms.patient_status_report_template</field>
+            <field name="report_type">qweb-pdf</field>
 
-        <field name="report_file">hms.patient_status_report_template</field>
+            <field name="report_name">hms.patient_status_report_template</field>
 
-        <field name="binding_model_id" ref="model_hms_patient"/>
-        <field name="binding_type">report</field>
+            <field name="report_file">hms.patient_status_report_template</field>
 
-    </record>
+            <field name="binding_model_id" ref="model_hms_patient"/>
 
+            <field name="binding_type">report</field>
+
+        </record>
+
+    </data>
 </odoo>

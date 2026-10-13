@@ -1,63 +1,81 @@
 <odoo>
+    <data>
+        <!-- Department Tree View -->
+        <record id="department_tree_view" model="ir.ui.view">
+            <field name="name">hms.department.tree</field>
+            <field name="model">hms.department</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="not is_opened"
+                      decoration-warning="is_nearly_full">
+                    <field name="name"/>
+                    <field name="capacity"/>
+                    <field name="patient_count"/>
+                    <field name="admitted_patient_count"/>
+                    <field name="remaining_capacity"/>
+                    <field name="occupancy_percentage"/>
+                    <field name="is_nearly_full" invisible="1"/>
+                    <field name="is_opened"/>
+                </tree>
+            </field>
+        </record>
 
-    <!-- Department Tree View -->
-    <record id="department_tree_view" model="ir.ui.view">
-        <field name="name">hms.department.tree</field>
-        <field name="model">hms.department</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="name"/>
-                <field name="capacity"/>
-                <field name="is_opened"/>
-            </tree>
-        </field>
-    </record>
+        <!-- Department Form View -->
+        <record id="department_form_view" model="ir.ui.view">
+            <field name="name">hms.department.form</field>
+            <field name="model">hms.department</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Department Information">
+                            <field name="name"/>
+                            <field name="capacity"/>
+                            <field name="is_opened"/>
+                            <field name="closure_reason"
+                                   attrs="{'invisible': [('is_opened', '=', True)]}"/>
+                            <field name="opened_date"/>
+                            <field name="closed_date"/>
+                        </group>
 
+                        <group string="Patient Statistics">
+                            <field name="patient_count"/>
+                            <field name="admitted_patient_count"/>
+                            <field name="remaining_capacity"/>
+                            <field name="occupancy_percentage"
+                                   widget="progressbar"/>
+                            <field name="is_nearly_full"/>
+                        </group>
 
-    <!-- Department Form View -->
-    <record id="department_form_view" model="ir.ui.view">
-        <field name="name">hms.department.form</field>
-        <field name="model">hms.department</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
+                        <notebook>
+                            <page string="Patients">
+                                <field name="patient_ids">
+                                    <tree>
+                                        <field name="medical_record_number"/>
+                                        <field name="name"/>
+                                        <field name="state"/>
+                                        <field name="age"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-                    <group>
-                        <field name="name"/>
-                        <field name="capacity"/>
-                        <field name="is_opened"/>
-                    </group>
+        <!-- Department Action -->
+        <record id="department_action" model="ir.actions.act_window">
+            <field name="name">Departments</field>
+            <field name="res_model">hms.department</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
-                    <group>
-                        <field name="patient_ids">
-                            <tree>
-                                <field name="first_name"/>
-                                <field name="last_name"/>
-                                <field name="age"/>
-                            </tree>
-                        </field>
-                    </group>
-
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-
-    <!-- Department Action -->
-    <record id="department_action" model="ir.actions.act_window">
-        <field name="name">Departments</field>
-        <field name="res_model">hms.department</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
-    <!-- Department Menu -->
-    <menuitem
-        id="department_menu"
-        name="Departments"
-        parent="hms_root_menu"
-        action="department_action"
-    />
-
+        <!-- Department Menu -->
+        <menuitem
+            id="department_menu"
+            name="Departments"
+            parent="hms_root_menu"
+            action="department_action"
+            groups="hms.group_hms_user"
+        />
+    </data>
 </odoo>

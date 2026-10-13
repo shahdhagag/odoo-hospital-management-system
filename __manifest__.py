@@ -5,6 +5,7 @@
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
+        'data/sequences.xml',
         'reports/patient_report.xml',
         'views/patient_views.xml',
         'views/department_views.xml',

@@ -1,25 +1,31 @@
 <odoo>
-
     <data>
-
         <!-- Patient Tree View -->
         <record id="patient_tree_view" model="ir.ui.view">
             <field name="name">hms.patient.tree</field>
             <field name="model">hms.patient</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="first_name"/>
-                    <field name="last_name"/>
+                    <field name="medical_record_number"/>
+                    <field name="name"/>
+                    <field name="state"/>
                     <field name="birth_date"/>
                     <field name="email"/>
                     <field name="blood_type"/>
-                    <field name="pcr"/>
+                    <field name="pcr" string="PCR Positive"/>
+                    <field name="cr_ratio" string="CR Ratio"/>
                     <field name="age"/>
-                    <field name="department_id"/>
+                    <field
+                        name="department_id"
+                        domain="[('is_opened', '=', True)]"
+                    />
+                    <field
+                        name="user_id"
+                        groups="hms.group_hms_manager"
+                    />
                 </tree>
             </field>
         </record>
-
 
         <!-- Patient Form View -->
         <record id="patient_form_view" model="ir.ui.view">
@@ -27,51 +33,98 @@
             <field name="model">hms.patient</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button
+                            name="action_register"
+                            type="object"
+                            string="Register"
+                            states="new"
+                            class="oe_highlight"
+                        />
+                        <button
+                            name="action_start_examination"
+                            type="object"
+                            string="Start Examination"
+                            states="registered"
+                            class="oe_highlight"
+                        />
+                        <button
+                            name="action_admit"
+                            type="object"
+                            string="Admit"
+                            states="under_examination"
+                            class="oe_highlight"
+                        />
+                        <button
+                            name="action_discharge"
+                            type="object"
+                            string="Discharge"
+                            states="admitted"
+                            class="oe_highlight"
+                        />
+                        <button
+                            name="action_archive"
+                            type="object"
+                            string="Archive"
+                            states="discharged"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="new,registered,under_examination,admitted,discharged,archived"
+                        />
+                    </header>
+
                     <sheet>
-
-                        <!-- Patient Information -->
                         <group>
+                            <field
+                                name="medical_record_number"
+                                readonly="1"
+                            />
+                        </group>
 
+                        <group>
                             <group>
                                 <field name="first_name"/>
                                 <field name="last_name"/>
+                                <field name="name" readonly="1"/>
                                 <field name="birth_date"/>
-                                <field name="age"/>
+                                <field name="age" readonly="1"/>
                                 <field name="email"/>
-                                <field name="department_id"/>
-<field
-    name="doctor_ids"
-    widget="many2many_tags"
-    groups="hms.group_hms_manager"
-/>
+                                <field
+                                    name="department_id"
+                                    domain="[('is_opened', '=', True)]"
+                                />
+                                <field
+                                    name="doctor_ids"
+                                    widget="many2many_tags"
+                                    groups="hms.group_hms_manager"
+                                />
+                                <field
+                                    name="user_id"
+                                    groups="hms.group_hms_manager"
+                                />
                             </group>
 
                             <group>
                                 <field name="blood_type"/>
-                                <field name="pcr"/>
-                                <field name="cr_ratio"/>
-                                <field name="image"/>
+                                <field name="pcr" string="PCR Positive"/>
+                                <field name="cr_ratio" string="CR Ratio"/>
+                                <field name="image" widget="image"/>
                             </group>
-
                         </group>
 
-
-                        <!-- Address -->
-                        <group>
+                        <group string="Address">
                             <field name="address"/>
                         </group>
 
-
-                        <!-- History -->
-                        <group>
+                        <group string="Medical History">
                             <field name="history"/>
                         </group>
-
                     </sheet>
                 </form>
             </field>
         </record>
-
 
         <!-- Patient Action -->
         <record id="patient_action" model="ir.actions.act_window">
@@ -80,11 +133,11 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-
-        <!-- Menus -->
+        <!-- HMS Menus -->
         <menuitem
             id="hms_root_menu"
             name="HMS"
+            groups="hms.group_hms_user"
         />
 
         <menuitem
@@ -92,8 +145,7 @@
             name="Patients"
             parent="hms_root_menu"
             action="patient_action"
+            groups="hms.group_hms_user"
         />
-
     </data>
-
 </odoo>
