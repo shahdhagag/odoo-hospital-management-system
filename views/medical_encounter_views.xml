@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================= -->
+        <!-- Medical Encounter List   -->
+        <!-- ========================= -->
+
+        <record id="medical_encounter_tree_view" model="ir.ui.view">
+            <field name="name">hms.medical.encounter.tree</field>
+            <field name="model">hms.medical.encounter</field>
+            <field name="arch" type="xml">
+                <tree string="Medical Encounters"
+                      decoration-success="state == 'completed'"
+                      decoration-info="state == 'in_progress'"
+                      decoration-muted="state == 'cancelled'">
+
+                    <field name="name"/>
+                    <field name="appointment_id"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="encounter_date"/>
+                    <field name="diagnosis"/>
+                    <field name="state" widget="badge"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Medical Encounter Form   -->
+        <!-- ========================= -->
+
+        <record id="medical_encounter_form_view" model="ir.ui.view">
+            <field name="name">hms.medical.encounter.form</field>
+            <field name="model">hms.medical.encounter</field>
+            <field name="arch" type="xml">
+
+                <form string="Medical Encounter">
+
+                    <header>
+
+                        <button name="action_start"
+                                string="Start Encounter"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+
+                        <button name="action_complete"
+                                string="Complete Encounter"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+
+                        <button name="action_cancel"
+                                string="Cancel Encounter"
+                                type="object"
+                                attrs="{'invisible': [('state', 'not in', ['draft', 'in_progress'])]}"/>
+
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="draft,in_progress,completed,cancelled"/>
+
+                    </header>
+
+                    <sheet>
+
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+
+                            <group string="Appointment Information">
+
+                                <field name="appointment_id"
+                                       domain="[('state', '=', 'in_progress')]"
+                                       attrs="{'readonly': [('name', '!=', 'New')]}"/>
+
+                                <field name="patient_id"
+                                       readonly="1"/>
+
+                                <field name="doctor_id"
+                                       readonly="1"/>
+
+                                <field name="encounter_date"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
+
+                            </group>
+
+                            <group string="Medical Information">
+
+                                <field name="chief_complaint"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
+
+                                <field name="symptoms"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
+
+                            </group>
+
+                        </group>
+
+                        <notebook>
+
+                            <page string="Examination">
+                                <field name="examination_notes"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
+                            </page>
+
+                            <page string="Diagnosis">
+                                <field name="diagnosis"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
+                            </page>
+
+                            <page string="Treatment Plan">
+                                <field name="treatment_plan"
+                                       attrs="{'readonly': [('state', 'in', ['completed', 'cancelled'])]}"/>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+
+                </form>
+
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Medical Encounter Search -->
+        <!-- ========================= -->
+
+        <record id="medical_encounter_search_view" model="ir.ui.view">
+            <field name="name">hms.medical.encounter.search</field>
+            <field name="model">hms.medical.encounter</field>
+            <field name="arch" type="xml">
+
+                <search string="Search Medical Encounters">
+
+                    <field name="name"/>
+                    <field name="appointment_id"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="diagnosis"/>
+
+                    <filter name="draft"
+                            string="Draft"
+                            domain="[('state', '=', 'draft')]"/>
+
+                    <filter name="in_progress"
+                            string="In Progress"
+                            domain="[('state', '=', 'in_progress')]"/>
+
+                    <filter name="completed"
+                            string="Completed"
+                            domain="[('state', '=', 'completed')]"/>
+
+                    <filter name="cancelled"
+                            string="Cancelled"
+                            domain="[('state', '=', 'cancelled')]"/>
+
+                    <group expand="0" string="Group By">
+
+                        <filter name="group_patient"
+                                string="Patient"
+                                context="{'group_by': 'patient_id'}"/>
+
+                        <filter name="group_doctor"
+                                string="Doctor"
+                                context="{'group_by': 'doctor_id'}"/>
+
+                        <filter name="group_state"
+                                string="Status"
+                                context="{'group_by': 'state'}"/>
+
+                    </group>
+
+                </search>
+
+            </field>
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Medical Encounter Action -->
+        <!-- ========================= -->
+
+        <record id="medical_encounter_action" model="ir.actions.act_window">
+
+            <field name="name">Medical Encounters</field>
+            <field name="res_model">hms.medical.encounter</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="medical_encounter_search_view"/>
+
+        </record>
+
+
+        <!-- ========================= -->
+        <!-- Medical Encounter Menu   -->
+        <!-- ========================= -->
+
+        <menuitem
+            id="hms_medical_encounter_menu"
+            name="Medical Encounters"
+            parent="hms_root_menu"
+            action="medical_encounter_action"
+            sequence="30"
+            groups="hms.group_hms_user"
+        />
+
+    </data>
+</odoo>

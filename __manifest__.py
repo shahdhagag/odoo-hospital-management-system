@@ -12,6 +12,7 @@
         'views/doctor_views.xml',
         'views/res_partner_views.xml',
         'views/appointment_views.xml',
+        'views/medical_encounter_views.xml',
     ],
     'installable': True,
     'application': True,

@@ -46,7 +46,21 @@
     <field name="domain_force">[(1, '=', 1)]</field>
 </record>
 
+<!-- HMS User: Own Medical Encounters -->
+<record id="medical_encounter_rule_hms_user" model="ir.rule">
+    <field name="name">HMS User: Own Medical Encounters</field>
+    <field name="model_id" ref="model_hms_medical_encounter"/>
+    <field name="groups" eval="[(4, ref('group_hms_user'))]"/>
+    <field name="domain_force">[('patient_id.user_id', '=', user.id)]</field>
+</record>
 
+<!-- HMS Manager: All Medical Encounters -->
+<record id="medical_encounter_rule_hms_manager" model="ir.rule">
+    <field name="name">HMS Manager: All Medical Encounters</field>
+    <field name="model_id" ref="model_hms_medical_encounter"/>
+    <field name="groups" eval="[(4, ref('group_hms_manager'))]"/>
+    <field name="domain_force">[(1, '=', 1)]</field>
+</record>
 
     </data>
 </odoo>

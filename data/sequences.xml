@@ -22,5 +22,15 @@
             <field name="number_increment">1</field>
         </record>
 
+        <!-- Medical Encounter Sequence -->
+<record id="seq_hms_medical_encounter" model="ir.sequence">
+    <field name="name">Medical Encounter</field>
+    <field name="code">hms.medical.encounter</field>
+    <field name="prefix">ENC</field>
+    <field name="padding">5</field>
+    <field name="number_next">1</field>
+    <field name="number_increment">1</field>
+</record>
+
     </data>
 </odoo>

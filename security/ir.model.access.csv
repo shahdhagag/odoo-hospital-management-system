@@ -7,3 +7,5 @@ access_hms_department_manager,hms.department.manager,model_hms_department,group_
 access_hms_doctors_manager,hms.doctors.manager,model_hms_doctors,group_hms_manager,1,1,1,1
 access_hms_appointment_user,hms.appointment.user,model_hms_appointment,group_hms_user,1,1,1,0
 access_hms_appointment_manager,hms.appointment.manager,model_hms_appointment,group_hms_manager,1,1,1,1
+access_hms_medical_encounter_user,hms.medical.encounter.user,model_hms_medical_encounter,group_hms_user,1,1,1,0
+access_hms_medical_encounter_manager,hms.medical.encounter.manager,model_hms_medical_encounter,group_hms_manager,1,1,1,1
