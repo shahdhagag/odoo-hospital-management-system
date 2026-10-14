@@ -133,8 +133,6 @@ Actual visibility depends on the configured groups, permissions, and record rule
 
 ## 📸 Screenshots
 
-## 📸 Screenshots
-
 ### 1. Patient Management
 
 #### Patients List
@@ -153,10 +151,10 @@ Actual visibility depends on the configured groups, permissions, and record rule
 
 ### 4. Appointment Management
 
-#### Appointments List
+#### Appointment Details
 ![Appointments List](screenshots/appointments1.png)
 
-#### Appointment Details
+#### Appointments List
 ![Appointment Details](screenshots/appointment2.png)
 
 ### 5. Medical Encounters
