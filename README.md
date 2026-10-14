@@ -176,7 +176,6 @@ Actual visibility depends on the configured groups, permissions, and record rule
 
 #### Prescription Report
 ![Prescription Report](screenshots/prescriptionReport.png)
-Screenshots of the application interface and PDF reports will be added here.
 
 ## 🎯 Project Goals
 
