@@ -133,6 +133,51 @@ Actual visibility depends on the configured groups, permissions, and record rule
 
 ## 📸 Screenshots
 
+## 📸 Screenshots
+
+### 1. Patient Management
+
+#### Patients List
+![Patients List](screenshots/patients.png)
+
+#### Patient Details
+![Patient Details](screenshots/patient1.png)
+
+### 2. Doctor Management
+
+![Doctors](screenshots/doctors.png)
+
+### 3. Department Management
+
+![Departments](screenshots/departments.png)
+
+### 4. Appointment Management
+
+#### Appointments List
+![Appointments List](screenshots/appointments1.png)
+
+#### Appointment Details
+![Appointment Details](screenshots/appointment2.png)
+
+### 5. Medical Encounters
+
+#### Medical Encounter Details
+![Medical Encounter](screenshots/medicalEnconter1.png)
+
+#### Medical Encounter Information
+![Medical Encounter Details](screenshots/medicalencounter2.png)
+
+### 6. Prescription Management
+
+![Prescription Management](screenshots/prescription1.png)
+
+### 7. PDF Reports
+
+#### Patient Status Report
+![Patient Status Report](screenshots/patientsRepoet.png)
+
+#### Prescription Report
+![Prescription Report](screenshots/prescriptionReport.png)
 Screenshots of the application interface and PDF reports will be added here.
 
 ## 🎯 Project Goals
